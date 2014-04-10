@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * CameraPreview class that is extended only for the purpose of testing CameraPreview class.
- * This class is added functionality to set arbitrary preview size, and removed automated retry function to start preview on exception.
+ * This class is added functionality to set arbitrary preview size, and removed automated retry
+ * function to start preview on exception.
  */
 public class ResizableCameraPreview extends CameraPreview {
 
