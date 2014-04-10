@@ -25,12 +25,12 @@ Features are developed on so called feature branches.
 Fixes for these issues are currently in progress on the development branch and will be integrated
 once tested.
 
-* SampleActivity does no longer center the preview
 * the resizing always happens within the previous dimensions so keeps getting smaller
 
 ### Fixed
 
 * alternative camera selection broken on 2.3.6 => was related to a fixed number of camera's instead of a number based on the available camera's.
+* SampleActivity does no longer center the preview => CENTER_IN_PARENT requires RelativeLayout, that example had still a RelativeLayout anyway so adapted.
 
 ## Resources
 
