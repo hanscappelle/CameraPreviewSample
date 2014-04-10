@@ -85,3 +85,4 @@ Refined sample driver activities.
 ## Resources
 
 * [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)
+* [Android training about adding Actionbar](https://developer.android.com/training/basics/actionbar/index.html)
