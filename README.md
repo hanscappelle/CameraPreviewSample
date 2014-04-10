@@ -102,3 +102,6 @@ Refined sample driver activities.
 * CameraPreviewTestActivity.java -- Driver Activity for testing CameraPreview.java.
 * ResizableCameraPreview.java -- Extended class of CameraPreview allowing user to specify the preview size, for the purpose of testing.
 
+## Resources
+
+* [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)
