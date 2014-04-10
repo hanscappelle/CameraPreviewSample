@@ -233,6 +233,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         float factH, factW, fact;
         factH = availableHeight / tmpLayoutHeight;
         factW = availableWidth / tmpLayoutWidth;
+
         // Select smaller factor, because the surface cannot be set to the size larger than display metrics.
         if (factH < factW) {
             fact = factH;
@@ -240,6 +241,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             fact = factW;
         }
 
+        // FIXME this will fail if parent is not a relativelayout !!!
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) this.getLayoutParams();
 
         int layoutHeight = (int) (tmpLayoutHeight * fact);

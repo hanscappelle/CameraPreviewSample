@@ -34,7 +34,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.test);
-        
+
         // Spinner for preview sizes
         Spinner spinnerSize = (Spinner) findViewById(R.id.spinner_size);
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
@@ -52,7 +52,8 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         adapter.add("0");
         adapter.add("1");
         adapter.add("2");
-        
+
+        // FIXME support other layouts also
         mLayout = (RelativeLayout) findViewById(R.id.surfaceView);
     }
 
@@ -63,21 +64,21 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         Log.w("CameraPreviewTestActivity", "parent.getId(): " + parent.getId());
         switch (parent.getId()) {
             case R.id.spinner_size:
-            Rect rect = new Rect();
-            mLayout.getDrawingRect(rect);
+                Rect rect = new Rect();
+                mLayout.getDrawingRect(rect);
 
-            if (0 == position) { // "Auto" selected
-                mPreview.surfaceChanged(null, 0, rect.width(), rect.height());
-            } else {
-                mPreview.setPreviewSize(position - 1, rect.width(), rect.height());
-            }
-        break;
+                if (0 == position) { // "Auto" selected
+                    mPreview.surfaceChanged(null, 0, rect.width(), rect.height());
+                } else {
+                    mPreview.setPreviewSize(position - 1, rect.width(), rect.height());
+                }
+                break;
             case R.id.spinner_camera:
-            mPreview.stop();
-            mLayout.removeView(mPreview);
-            mCameraId = position;
-            createCameraPreview();
-            break;
+                mPreview.stop();
+                mLayout.removeView(mPreview);
+                mCameraId = position;
+                createCameraPreview();
+                break;
         }
     }
 
@@ -99,7 +100,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         mLayout.removeView(mPreview);
         mPreview = null;
     }
-    
+
     private void createCameraPreview() {
         // Set the second argument by your choice.
         // Usually, 0 for back-facing camera, 1 for front-facing camera.

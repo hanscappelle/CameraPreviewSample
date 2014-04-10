@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class ResizableCameraPreview extends CameraPreview {
 
+    /**
+     * create log tag, do this only once
+     */
     private static final String LOG_TAG = ResizableCameraPreview.class.getSimpleName();
 
     /**

@@ -1,6 +1,5 @@
 package net.pikanji.camerapreviewsample;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.RelativeLayout;
@@ -22,6 +21,7 @@ public class CameraPreviewSampleActivity extends ActionBarActivity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // Requires RelativeLayout.
+        // FIXME this will still work since we wrap our own relativeLayout around it
         mLayout = new RelativeLayout(this);
         setContentView(mLayout);
     }
