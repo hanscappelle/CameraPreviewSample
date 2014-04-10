@@ -18,7 +18,6 @@ public class ResizableCameraPreview extends CameraPreview {
 
     /**
      * @param activity
-     * @param adjustByAspectRatio
      * @param addReversedSizes is set to true to add reversed values of supported preview-sizes to the list.
      */
     public ResizableCameraPreview(Activity activity, int cameraId, LayoutMode mode, boolean addReversedSizes) {

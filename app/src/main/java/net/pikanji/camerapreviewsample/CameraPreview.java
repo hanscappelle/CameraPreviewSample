@@ -153,7 +153,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
     
     /**
-     * @param cameraParams
      * @param portrait
      * @param reqWidth must be the value of the parameter passed in surfaceChanged
      * @param reqHeight must be the value of the parameter passed in surfaceChanged
