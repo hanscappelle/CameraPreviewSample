@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CameraPreviewSample</string>
+    <string name="camera_preview_sample">Camera Preview Sample</string>
+    <string name="camera_preview_test">Camera Preview Test</string>
 </resources>
