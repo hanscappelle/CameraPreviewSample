@@ -38,7 +38,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     private int mSurfaceChangedCallDepth = 0, mCameraId, mCenterPosX = -1, mCenterPosY;
 
-    PreviewReadyCallback mPreviewReadyCallback = null;
+    private PreviewReadyCallback mPreviewReadyCallback = null;
 
     public interface PreviewReadyCallback {
         public void onPreviewReady();
@@ -50,6 +50,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
      */
     protected boolean mSurfaceConfiguring = false;
 
+    /**
+     * def ctor
+     *
+     * @param activity
+     * @param cameraId
+     */
     public CameraPreview(Activity activity, int cameraId) {
         super(activity); // Always necessary
         mActivity = activity;
@@ -57,21 +63,22 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+        // just a safety check before setting camera ID
+        // TODO review this part
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            if (Camera.getNumberOfCameras() > cameraId) {
-                mCameraId = cameraId;
-            } else {
-                mCameraId = 0;
-            }
+            mCameraId = (Camera.getNumberOfCameras() > cameraId) ? cameraId : 0;
         } else {
             mCameraId = 0;
         }
 
+        // opening camera has changed over API revisions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             mCamera = Camera.open(mCameraId);
         } else {
             mCamera = Camera.open();
         }
+
+        // retrieve information about available camera features
         Camera.Parameters cameraParams = mCamera.getParameters();
         mPreviewSizeList = cameraParams.getSupportedPreviewSizes();
         mPictureSizeList = cameraParams.getSupportedPictureSizes();
@@ -79,6 +86,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.d(LOG_TAG, "surface created");
         try {
             mCamera.setPreviewDisplay(mHolder);
         } catch (IOException e) {
@@ -88,12 +96,25 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.d(LOG_TAG, "surface destroyed");
+        stop();
+    }
+
+    @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Log.d(LOG_TAG, "surface changed");
         mSurfaceChangedCallDepth++;
         doSurfaceChanged(width, height);
         mSurfaceChangedCallDepth--;
     }
 
+    /**
+     * helper to handle surface changes
+     *
+     * @param width
+     * @param height
+     */
     private void doSurfaceChanged(int width, int height) {
         mCamera.stopPreview();
 
@@ -314,11 +335,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera.setParameters(cameraParams);
     }
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        stop();
-    }
-
+    /**
+     * helper for stopping camera and cleaning up references
+     */
     public void stop() {
         if (null == mCamera) {
             return;
@@ -328,29 +347,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera = null;
     }
 
+    /**
+     * check if camera is in portrait mode or not
+     *
+     * @return
+     */
     public boolean isPortrait() {
         return (mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
-    }
-
-    public void setOneShotPreviewCallback(PreviewCallback callback) {
-        if (null == mCamera) {
-            return;
-        }
-        mCamera.setOneShotPreviewCallback(callback);
-    }
-
-    public void setPreviewCallback(PreviewCallback callback) {
-        if (null == mCamera) {
-            return;
-        }
-        mCamera.setPreviewCallback(callback);
-    }
-
-    public Camera.Size getPreviewSize() {
-        return mPreviewSize;
-    }
-
-    public void setOnPreviewReady(PreviewReadyCallback cb) {
-        mPreviewReadyCallback = cb;
     }
 }
