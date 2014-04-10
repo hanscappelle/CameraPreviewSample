@@ -85,3 +85,4 @@ Refined sample driver activities.
 ## Resources
 
 * [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)
+* [Android Camera API Tutorial](http://www.vogella.com/tutorials/AndroidCamera/article.html) by Lars Vogel
