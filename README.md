@@ -26,8 +26,11 @@ Fixes for these issues are currently in progress on the development branch and w
 once tested.
 
 * SampleActivity does no longer center the preview
-* alternative camera selection broken on 2.3.6
 * the resizing always happens within the previous dimensions so keeps getting smaller
+
+### Fixed
+
+* alternative camera selection broken on 2.3.6 => was related to a fixed number of camera's instead of a number based on the available camera's.
 
 ## Resources
 

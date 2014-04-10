@@ -68,9 +68,10 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCamera.setAdapter(adapter);
         spinnerCamera.setOnItemSelectedListener(this);
-        adapter.add("0");
-        adapter.add("1");
-        adapter.add("2");
+        // why would we want a fixed list of camaera's here!!?? replaced by a number that matches
+        // the amonut of available camera's
+        for( int i = 0 ; i < Camera.getNumberOfCameras() ; i++)
+            adapter.add(String.valueOf(i));
 
         // any viewgroup can be used from now on
         mParentView = (ViewGroup) findViewById(R.id.surfaceView);
