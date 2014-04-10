@@ -86,3 +86,4 @@ Refined sample driver activities.
 
 * [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)
 * [Android training about adding Actionbar](https://developer.android.com/training/basics/actionbar/index.html)
+* [Android Camera API Tutorial](http://www.vogella.com/tutorials/AndroidCamera/article.html) by Lars Vogel

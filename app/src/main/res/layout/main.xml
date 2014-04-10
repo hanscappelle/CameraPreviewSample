@@ -15,4 +15,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_sample"
         android:text="@string/camera_preview_test" />
+
+    <Button
+        android:id="@+id/button_intent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_test"
+        android:text="@string/capture_with_intent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_below="@id/button_intent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
