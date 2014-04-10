@@ -1,0 +1,114 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .gitignore
+* .idea/
+* .idea/.name
+* .idea/compiler.xml
+* .idea/copyright/
+* .idea/copyright/profiles_settings.xml
+* .idea/encodings.xml
+* .idea/misc.xml
+* .idea/modules.xml
+* .idea/scopes/
+* .idea/scopes/scope_settings.xml
+* .idea/vcs.xml
+* .idea/workspace.xml
+* README.md
+* app/
+* app/build.gradle
+* app/build/
+* app/build/apk/
+* app/build/apk/app-debug-unaligned.apk
+* app/build/classes/
+* app/build/classes/debug/
+* app/build/classes/debug/net/
+* app/build/classes/debug/net/pikanji/
+* app/build/classes/debug/net/pikanji/camerapreviewsample/
+* app/build/classes/debug/net/pikanji/camerapreviewsample/BuildConfig.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/CameraPreview$LayoutMode.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/CameraPreview$PreviewReadyCallback.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/CameraPreview.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/CameraPreviewSampleActivity.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/CameraPreviewTestActivity.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/MainActivity.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/R$attr.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/R$drawable.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/R$id.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/R$layout.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/R$string.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/R.class
+* app/build/classes/debug/net/pikanji/camerapreviewsample/ResizableCameraPreview.class
+* app/build/dex/
+* app/build/dex/debug/
+* app/build/dex/debug/classes.dex
+* app/src/
+* app/src/main/
+* app/src/main/AndroidManifest.xml
+* app/src/main/assets/
+* app/src/main/assets/CameraPreviewSample_512x512icon.png
+* app/src/main/assets/CameraPreviewSample_512x512icon.xcf
+* app/src/main/assets/CameraPreviewSample_ss1.png
+* app/src/main/assets/CameraPreviewSample_ss2.png
+* app/src/main/java/
+* app/src/main/java/net/
+* app/src/main/java/net/pikanji/
+* app/src/main/java/net/pikanji/camerapreviewsample/
+* app/src/main/java/net/pikanji/camerapreviewsample/CameraPreview.java
+* app/src/main/java/net/pikanji/camerapreviewsample/CameraPreviewSampleActivity.java
+* app/src/main/java/net/pikanji/camerapreviewsample/CameraPreviewTestActivity.java
+* app/src/main/java/net/pikanji/camerapreviewsample/MainActivity.java
+* app/src/main/java/net/pikanji/camerapreviewsample/ResizableCameraPreview.java
+* app/src/main/res/
+* app/src/main/res/drawable-hdpi/
+* app/src/main/res/drawable-hdpi/icon.png
+* app/src/main/res/drawable-ldpi/
+* app/src/main/res/drawable-ldpi/icon.png
+* app/src/main/res/drawable-mdpi/
+* app/src/main/res/drawable-mdpi/icon.png
+* app/src/main/res/layout/
+* app/src/main/res/layout/main.xml
+* app/src/main/res/layout/test.xml
+* app/src/main/res/values/
+* app/src/main/res/values/strings.xml
+* build.gradle
+* default.properties
+* gradle/
+* gradle/wrapper/
+* gradle/wrapper/gradle-wrapper.jar
+* gradle/wrapper/gradle-wrapper.properties
+* gradlew
+* gradlew.bat
+* proguard.cfg
+* settings.gradle
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* assets/ => app/src/main/assets/
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
