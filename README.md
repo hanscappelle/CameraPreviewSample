@@ -2,6 +2,14 @@
 
 This project demonstrates how to implement a camera preview step-by-step.
 
+**Update: This fork focuses more on layout, code quality and graphical improvements.
+The support actionbar was added, icon updated and several code and layout changes introduced.**
+
+The below overview of tags is part of the original project showing step by step how several aspects
+of managing the camera and its preview are handled. The biggest concern in my opinion is that this
+code relies on the wrapping layout ro be a RelativeLayout instance and if not simply breaks. Other
+than that it's a great way of showing how things are done.
+
 ## Git Tags
 
 * minimum -- Minimum code implementing camera preview.
