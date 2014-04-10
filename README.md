@@ -16,6 +16,11 @@ The support actionbar was added, icon updated and several code and layout change
 * work on extra camera parameters like focus
 * more advanced hardware checks in code
 
+### Known issues
+
+* SampleActivity does no longer center the preview
+* alternative camera selection broken on 2.3.6
+
 ## Git Tags
 
 The below overview of tags is part of the original project showing step by step how several aspects
