@@ -29,7 +29,13 @@ once tested.
 * alternative camera selection broken on 2.3.6
 * the resizing always happens within the previous dimensions so keeps getting smaller
 
-## Git Tags
+## Resources
+
+* [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)
+* [Android training about adding Actionbar](https://developer.android.com/training/basics/actionbar/index.html)
+* [Android Camera API Tutorial](http://www.vogella.com/tutorials/AndroidCamera/article.html) by Lars Vogel
+
+## Original Readme
 
 The below overview of tags is part of the original project showing step by step how several aspects
 of managing the camera and its preview are handled.
@@ -37,6 +43,8 @@ of managing the camera and its preview are handled.
 The biggest concern in my opinion was that this code relies on the wrapping layout ro be a
 RelativeLayout instance and if not simply breaks. In my version this was set to a more generic
 ViewGroup object. Other than that it's a great way of showing how things are done.
+
+## Git Tags
 
 * minimum -- Minimum code implementing camera preview.
 * orientation -- Display in correct orientation.
@@ -115,9 +123,3 @@ Refined sample driver activities.
 * CameraPreviewSampleActivity.java -- Driver Activity to demonstrate the usage of CameraPreview.java.
 * CameraPreviewTestActivity.java -- Driver Activity for testing CameraPreview.java.
 * ResizableCameraPreview.java -- Extended class of CameraPreview allowing user to specify the preview size, for the purpose of testing.
-
-## Resources
-
-* [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)
-* [Android training about adding Actionbar](https://developer.android.com/training/basics/actionbar/index.html)
-* [Android Camera API Tutorial](http://www.vogella.com/tutorials/AndroidCamera/article.html) by Lars Vogel
