@@ -20,8 +20,8 @@ public class ResizableCameraPreview extends CameraPreview {
      * @param activity
      * @param addReversedSizes is set to true to add reversed values of supported preview-sizes to the list.
      */
-    public ResizableCameraPreview(Activity activity, int cameraId, LayoutMode mode, boolean addReversedSizes) {
-        super(activity, cameraId, mode);
+    public ResizableCameraPreview(Activity activity, int cameraId, boolean addReversedSizes) {
+        super(activity, cameraId);
         if (addReversedSizes) {
             List<Camera.Size> sizes = mPreviewSizeList;
             int length = sizes.size();

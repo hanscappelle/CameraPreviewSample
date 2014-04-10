@@ -104,7 +104,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         // Set the second argument by your choice.
         // Usually, 0 for back-facing camera, 1 for front-facing camera.
         // If the OS is pre-gingerbreak, this does not have any effect.
-        mPreview = new ResizableCameraPreview(this, mCameraId, CameraPreview.LayoutMode.FitToParent, false);
+        mPreview = new ResizableCameraPreview(this, mCameraId, /*CameraPreview.LayoutMode.FitToParent, */false);
         LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         mLayout.addView(mPreview, 0, previewLayoutParams);
 

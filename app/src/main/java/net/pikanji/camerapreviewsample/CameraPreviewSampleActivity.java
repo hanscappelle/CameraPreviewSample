@@ -9,17 +9,17 @@ import android.widget.RelativeLayout.LayoutParams;
 public class CameraPreviewSampleActivity extends ActionBarActivity {
     private CameraPreview mPreview;
     private RelativeLayout mLayout;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         // Hide status-bar
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Hide title-bar, must be before setContentView
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
+
         // Requires RelativeLayout.
         mLayout = new RelativeLayout(this);
         setContentView(mLayout);
@@ -39,7 +39,7 @@ public class CameraPreviewSampleActivity extends ActionBarActivity {
 
         // Un-comment below line to specify the position.
         //mPreview.setCenterPosition(270, 130);
-        
+
         mLayout.addView(mPreview, 0, previewLayoutParams);
     }
 
