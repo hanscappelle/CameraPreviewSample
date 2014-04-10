@@ -7,20 +7,27 @@ The support actionbar was added, icon updated and several code and layout change
 
 ### Version History
 
-* 1.1.0 first tagged version with the improvements on my fork
+* 1.1.0 first tagged version with the improvements on this fork
 
 ### Upcoming features
+
+Features are developed on so called feature branches.
 
 * see if we really need a wrapping view, nested views are no good for performance anyway
 * should we work on zxing core integration on a feature branch?
 * work on extra camera parameters like focus
 * more advanced hardware checks in code
 * implement actual image capture and bitmap handling
+* should we add test cases?
 
 ### Known issues
 
+Fixes for these issues are currently in progress on the development branch and will be integrated
+once tested.
+
 * SampleActivity does no longer center the preview
 * alternative camera selection broken on 2.3.6
+* the resizing always happens within the previous dimensions so keeps getting smaller
 
 ## Git Tags
 
