@@ -66,7 +66,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         // opening camera has changed over API revisions
-        // FIXME debug this part, seems like the camera selection is broken on older devices...
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             // just a safety check before setting camera ID
             mCameraId = (Camera.getNumberOfCameras() > cameraId) ? cameraId : 0;
