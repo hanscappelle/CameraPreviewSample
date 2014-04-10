@@ -14,4 +14,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"/>
+    <!-- have a surfaceview added in this nested layout instead so we have more control
+    over bounds and so -->
+    <RelativeLayout
+        android:id="@+id/surfaceView"
+        android:layout_below="@+id/spinner_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/border"
+        android:padding="3dp"
+        android:layout_margin="20dp"/>
 </RelativeLayout>

@@ -17,6 +17,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 
 public class CameraPreviewTestActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
+
     private ResizableCameraPreview mPreview;
     private ArrayAdapter<String> mAdapter;
     private RelativeLayout mLayout;
@@ -52,7 +53,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         adapter.add("1");
         adapter.add("2");
         
-        mLayout = (RelativeLayout) findViewById(R.id.layout);
+        mLayout = (RelativeLayout) findViewById(R.id.surfaceView);
     }
 
     @Override
