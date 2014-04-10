@@ -23,6 +23,7 @@
         android:layout_below="@+id/button_test"
         android:text="@string/capture_with_intent" />
 
+    <!-- this view we can use to put the captured result image on display -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_below="@id/button_intent"
