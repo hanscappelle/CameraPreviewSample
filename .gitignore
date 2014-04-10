@@ -2,3 +2,7 @@
 /gen
 *.DS_Store
 *~
+.idea
+.gradle
+app/build
+local.properties
