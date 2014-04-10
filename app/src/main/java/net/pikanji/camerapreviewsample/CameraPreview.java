@@ -22,8 +22,6 @@ import java.util.List;
  */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
-    private static boolean DEBUGGING = true;
-
     private static final String LOG_TAG = "CameraPreviewSample";
 
     private static final String CAMERA_PARAM_ORIENTATION = "orientation";
@@ -107,9 +105,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         if (!mSurfaceConfiguring) {
             Camera.Size previewSize = determinePreviewSize(portrait, width, height);
             Camera.Size pictureSize = determinePictureSize(previewSize);
-            if (DEBUGGING) {
-                Log.v(LOG_TAG, "Desired Preview Size - w: " + width + ", h: " + height);
-            }
+            Log.d(LOG_TAG, "Desired Preview Size - w: " + width + ", h: " + height);
             mPreviewSize = previewSize;
             mPictureSize = pictureSize;
             mSurfaceConfiguring = adjustSurfaceLayoutSize(previewSize, portrait, width, height);
@@ -170,15 +166,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             reqPreviewHeight = reqHeight;
         }
 
-        if (DEBUGGING) {
-            Log.v(LOG_TAG, "Listing all supported preview sizes");
-            for (Camera.Size size : mPreviewSizeList) {
-                Log.v(LOG_TAG, "  w: " + size.width + ", h: " + size.height);
-            }
-            Log.v(LOG_TAG, "Listing all supported picture sizes");
-            for (Camera.Size size : mPictureSizeList) {
-                Log.v(LOG_TAG, "  w: " + size.width + ", h: " + size.height);
-            }
+        // debugging of all options
+        Log.d(LOG_TAG, "Listing all supported preview sizes");
+        for (Camera.Size size : mPreviewSizeList) {
+            Log.d(LOG_TAG, "  w: " + size.width + ", h: " + size.height);
+        }
+        Log.d(LOG_TAG, "Listing all supported picture sizes");
+        for (Camera.Size size : mPictureSizeList) {
+            Log.d(LOG_TAG, "  w: " + size.width + ", h: " + size.height);
         }
 
         // Adjust surface size with the closest aspect-ratio
@@ -206,9 +201,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             }
         }
 
-        if (DEBUGGING) {
-            Log.v(LOG_TAG, "Same picture size not found.");
-        }
+        Log.d(LOG_TAG, "Same picture size not found.");
 
         // if the preview size is not supported as a picture size
         float reqRatio = ((float) previewSize.width) / previewSize.height;
@@ -251,10 +244,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         int layoutHeight = (int) (tmpLayoutHeight * fact);
         int layoutWidth = (int) (tmpLayoutWidth * fact);
-        if (DEBUGGING) {
-            Log.v(LOG_TAG, "Preview Layout Size - w: " + layoutWidth + ", h: " + layoutHeight);
-            Log.v(LOG_TAG, "Scale factor: " + fact);
-        }
+        Log.d(LOG_TAG, "Preview Layout Size - w: " + layoutWidth + ", h: " + layoutHeight);
+        Log.d(LOG_TAG, "Scale factor: " + fact);
 
         boolean layoutChanged;
         if ((layoutWidth != this.getWidth()) || (layoutHeight != this.getHeight())) {
@@ -315,10 +306,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         cameraParams.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
         cameraParams.setPictureSize(mPictureSize.width, mPictureSize.height);
-        if (DEBUGGING) {
-            Log.v(LOG_TAG, "Preview Actual Size - w: " + mPreviewSize.width + ", h: " + mPreviewSize.height);
-            Log.v(LOG_TAG, "Picture Actual Size - w: " + mPictureSize.width + ", h: " + mPictureSize.height);
-        }
+        Log.d(LOG_TAG, "Preview Actual Size - w: " + mPreviewSize.width + ", h: " + mPreviewSize.height);
+        Log.d(LOG_TAG, "Picture Actual Size - w: " + mPictureSize.width + ", h: " + mPictureSize.height);
 
         mCamera.setParameters(cameraParams);
     }

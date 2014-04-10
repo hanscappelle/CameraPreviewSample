@@ -31,7 +31,7 @@ public class CameraPreviewSampleActivity extends ActionBarActivity {
         // Set the second argument by your choice.
         // Usually, 0 for back-facing camera, 1 for front-facing camera.
         // If the OS is pre-gingerbreak, this does not have any effect.
-        mPreview = new CameraPreview(this, 0, CameraPreview.LayoutMode.FitToParent);
+        mPreview = new CameraPreview(this, 0);
         LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         // Un-comment below lines to specify the size.
         //previewLayoutParams.height = 500;
