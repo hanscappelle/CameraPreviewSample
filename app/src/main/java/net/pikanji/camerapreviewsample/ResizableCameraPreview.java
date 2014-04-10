@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ResizableCameraPreview extends CameraPreview {
 
-    private static final String LOG_TAG = "ResizableCameraPreviewSample";
+    private static final String LOG_TAG = ResizableCameraPreview.class.getSimpleName();
 
     /**
      * @param activity

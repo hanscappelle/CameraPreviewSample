@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class CameraPreviewSampleActivity extends ActionBarActivity {
+
     private CameraPreview mPreview;
     private RelativeLayout mLayout;
 

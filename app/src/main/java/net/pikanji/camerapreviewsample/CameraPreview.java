@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
-    private static final String LOG_TAG = "CameraPreviewSample";
+    private static final String LOG_TAG = CameraPreview.class.getSimpleName();
 
     private static final String CAMERA_PARAM_ORIENTATION = "orientation";
     private static final String CAMERA_PARAM_LANDSCAPE = "landscape";
