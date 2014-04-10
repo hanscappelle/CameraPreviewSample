@@ -1,10 +1,9 @@
 # CameraPreviewSample
 
-## Overview
-
 This project demonstrates how to implement a camera preview step-by-step.
 
 ## Git Tags
+
 * minimum -- Minimum code implementing camera preview.
 * orientation -- Display in correct orientation.
 * aspectratio -- Display in correct aspect ratio.
@@ -21,7 +20,6 @@ This release is a minimum implementation of camera preview, which may display th
 ### orientation
 
 This release handles the orientation change to display in the correct orientation.
-
 
 ### aspectratio
 
@@ -43,7 +41,7 @@ It is observed on Japanese device, IS03, so far.
 This release allows user to arbitrarily set the size of camera preview from the supported sizes.
 It still keeps the aspect ratio and scales it to fit to the display.
 
-### Files
+#### Files
 
 * CameraPreview.java -- Primary file implementing camera preview feature.
 * MainActivity.java -- Driver Activity to demonstrate the usage of CameraPreview.java.
@@ -76,7 +74,8 @@ This version allows user class to specify the size and position of the camera pr
 Also, implemented setter for a callback called on preview-ready, and wrapper for Camera.set*Callback.
 Refined sample driver activities.
 
-## Files
+#### Files
+
 * CameraPreview.java -- Primary file implementing camera preview feature.
 * MainActivity.java -- UI that allows users to select a sample activity or a test activity to open.
 * CameraPreviewSampleActivity.java -- Driver Activity to demonstrate the usage of CameraPreview.java.
