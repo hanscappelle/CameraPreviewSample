@@ -9,12 +9,13 @@ The support actionbar was added, icon updated and several code and layout change
 
 * 1.1.0 first tagged version with the improvements on my fork
 
-### In Progress
+### Upcoming features
 
 * see if we really need a wrapping view, nested views are no good for performance anyway
 * should we work on zxing core integration on a feature branch?
 * work on extra camera parameters like focus
 * more advanced hardware checks in code
+* implement actual image capture and bitmap handling
 
 ### Known issues
 
