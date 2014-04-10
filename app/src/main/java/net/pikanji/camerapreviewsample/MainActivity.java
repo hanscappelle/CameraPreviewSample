@@ -87,6 +87,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         // TODO check if this is sufficient for clean up. Older Android versions do have an
         // issue with memory handling related to bitmaps
         if( mBitmap != null && !mBitmap.isRecycled())

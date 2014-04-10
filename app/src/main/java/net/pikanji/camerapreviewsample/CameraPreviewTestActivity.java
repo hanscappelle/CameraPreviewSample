@@ -39,7 +39,6 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
 
     /**
      * selected camera ID
-     * FIXME this is broken
      */
     private int mCameraId = 0;
 
