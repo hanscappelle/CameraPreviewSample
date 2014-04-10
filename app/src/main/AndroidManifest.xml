@@ -3,9 +3,11 @@
       package="net.pikanji.camerapreviewsample"
       android:versionCode="1"
       android:versionName="1.0.0">
-    <uses-sdk android:minSdkVersion="5" />
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/icon"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:label="@string/app_name">
         <activity android:name=".MainActivity"
                   android:label="@string/app_name">
             <intent-filter>

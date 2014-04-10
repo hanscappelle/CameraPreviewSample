@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,7 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 
-public class CameraPreviewTestActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class CameraPreviewTestActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
     private ResizableCameraPreview mPreview;
     private ArrayAdapter<String> mAdapter;
     private RelativeLayout mLayout;

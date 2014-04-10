@@ -2,10 +2,11 @@ package net.pikanji.camerapreviewsample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class CameraPreviewSampleActivity extends Activity {
+public class CameraPreviewSampleActivity extends ActionBarActivity {
     private CameraPreview mPreview;
     private RelativeLayout mLayout;
     
