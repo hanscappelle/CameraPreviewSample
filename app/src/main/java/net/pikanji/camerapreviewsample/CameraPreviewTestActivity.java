@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
@@ -20,7 +21,10 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
 
     private ResizableCameraPreview mPreview;
     private ArrayAdapter<String> mAdapter;
-    private RelativeLayout mLayout;
+
+    // some parent view, whatever that might be, as long as it's a {@link ViewGroup} it's OK
+    private ViewGroup mLayout;
+
     private int mCameraId = 0;
 
     @Override
@@ -54,7 +58,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         adapter.add("2");
 
         // FIXME support other layouts also
-        mLayout = (RelativeLayout) findViewById(R.id.surfaceView);
+        mLayout = /*(RelativeLayout)*/ (ViewGroup)findViewById(R.id.surfaceView);
     }
 
     @Override
