@@ -1,83 +1,86 @@
 package net.pikanji.camerapreviewsample;
 
-import java.io.IOException;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.hardware.Camera;
-import android.hardware.Camera.PreviewCallback;
 import android.os.Build;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.RelativeLayout;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.List;
+
 /**
- * This class assumes the parent layout is RelativeLayout.LayoutParams.
+ * A preview view that will match the dimensions to fit the parent view. Use the parent view to
+ * control the size of the preview screen. The aspect ratio is managed within this view.
+ * <p/>
+ * The parent view no longer has to be a RelativeLayout, it just needs to be a ViewGroup now.
+ * TODO check if we even need a wrapping view, why not have a surfaceView defined in the layout?
  */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-    private static boolean DEBUGGING = true;
-    private static final String LOG_TAG = "CameraPreviewSample";
+
+    private static final String LOG_TAG = CameraPreview.class.getSimpleName();
+
     private static final String CAMERA_PARAM_ORIENTATION = "orientation";
     private static final String CAMERA_PARAM_LANDSCAPE = "landscape";
     private static final String CAMERA_PARAM_PORTRAIT = "portrait";
+
     protected Activity mActivity;
     private SurfaceHolder mHolder;
     protected Camera mCamera;
-    protected List<Camera.Size> mPreviewSizeList;
-    protected List<Camera.Size> mPictureSizeList;
-    protected Camera.Size mPreviewSize;
-    protected Camera.Size mPictureSize;
-    private int mSurfaceChangedCallDepth = 0;
-    private int mCameraId;
-    private LayoutMode mLayoutMode;
-    private int mCenterPosX = -1;
-    private int mCenterPosY;
-    
-    PreviewReadyCallback mPreviewReadyCallback = null;
-    
-    public static enum LayoutMode {
-        FitToParent, // Scale to the size that no side is larger than the parent
-        NoBlank // Scale to the size that no side is smaller than the parent
-    };
-    
+
+    protected List<Camera.Size> mPreviewSizeList, mPictureSizeList;
+
+    protected Camera.Size mPreviewSize, mPictureSize;
+
+    private int mSurfaceChangedCallDepth = 0, mCameraId; //, mCenterPosX = -1, mCenterPosY;
+
+    private PreviewReadyCallback mPreviewReadyCallback = null;
+
     public interface PreviewReadyCallback {
         public void onPreviewReady();
     }
- 
+
     /**
      * State flag: true when surface's layout size is set and surfaceChanged()
      * process has not been completed.
      */
     protected boolean mSurfaceConfiguring = false;
 
-    public CameraPreview(Activity activity, int cameraId, LayoutMode mode) {
+    /**
+     * def ctor
+     *
+     * @param activity
+     * @param cameraId
+     */
+    public CameraPreview(Activity activity, int cameraId) {
         super(activity); // Always necessary
         mActivity = activity;
-        mLayoutMode = mode;
         mHolder = getHolder();
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+        // just a safety check before setting camera ID
+        // FIXME debug this part, seems like the camera selection is broken on older devices...
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            if (Camera.getNumberOfCameras() > cameraId) {
-                mCameraId = cameraId;
-            } else {
-                mCameraId = 0;
-            }
+            mCameraId = (Camera.getNumberOfCameras() > cameraId) ? cameraId : 0;
         } else {
             mCameraId = 0;
         }
 
+        // opening camera has changed over API revisions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             mCamera = Camera.open(mCameraId);
         } else {
             mCamera = Camera.open();
         }
+
+        // retrieve information about available camera features
         Camera.Parameters cameraParams = mCamera.getParameters();
         mPreviewSizeList = cameraParams.getSupportedPreviewSizes();
         mPictureSizeList = cameraParams.getSupportedPictureSizes();
@@ -85,6 +88,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.d(LOG_TAG, "surface created");
         try {
             mCamera.setPreviewDisplay(mHolder);
         } catch (IOException e) {
@@ -92,17 +96,33 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             mCamera = null;
         }
     }
-    
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.d(LOG_TAG, "surface destroyed");
+        stop();
+    }
+
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Log.d(LOG_TAG, "surface changed");
         mSurfaceChangedCallDepth++;
         doSurfaceChanged(width, height);
         mSurfaceChangedCallDepth--;
     }
 
+    /**
+     * helper to handle surface changes
+     *
+     * @param width
+     * @param height
+     */
     private void doSurfaceChanged(int width, int height) {
+
+        // stop the preview
         mCamera.stopPreview();
-        
+
+        // check the params again
         Camera.Parameters cameraParams = mCamera.getParameters();
         boolean portrait = isPortrait();
 
@@ -111,7 +131,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         if (!mSurfaceConfiguring) {
             Camera.Size previewSize = determinePreviewSize(portrait, width, height);
             Camera.Size pictureSize = determinePictureSize(previewSize);
-            if (DEBUGGING) { Log.v(LOG_TAG, "Desired Preview Size - w: " + width + ", h: " + height); }
+            Log.d(LOG_TAG, "Desired Preview Size - w: " + width + ", h: " + height);
             mPreviewSize = previewSize;
             mPictureSize = pictureSize;
             mSurfaceConfiguring = adjustSurfaceLayoutSize(previewSize, portrait, width, height);
@@ -129,6 +149,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         configureCameraParameters(cameraParams, portrait);
         mSurfaceConfiguring = false;
 
+        // try to start the preview again now that params have been updated
         try {
             mCamera.startPreview();
         } catch (Exception e) {
@@ -146,15 +167,18 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 Log.w(LOG_TAG, "Gave up starting preview");
             }
         }
-        
+
+        // notify callback
         if (null != mPreviewReadyCallback) {
             mPreviewReadyCallback.onPreviewReady();
         }
     }
-    
+
     /**
+     * helper to calculate the preview size
+     *
      * @param portrait
-     * @param reqWidth must be the value of the parameter passed in surfaceChanged
+     * @param reqWidth  must be the value of the parameter passed in surfaceChanged
      * @param reqHeight must be the value of the parameter passed in surfaceChanged
      * @return Camera.Size object that is an element of the list returned from Camera.Parameters.getSupportedPreviewSizes.
      */
@@ -164,6 +188,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // That is, width must always be larger than height for setPreviewSize.
         int reqPreviewWidth; // requested width in terms of camera hardware
         int reqPreviewHeight; // requested height in terms of camera hardware
+
+        // handle portrait
         if (portrait) {
             reqPreviewWidth = reqHeight;
             reqPreviewHeight = reqWidth;
@@ -172,16 +198,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             reqPreviewHeight = reqHeight;
         }
 
-        if (DEBUGGING) {
-            Log.v(LOG_TAG, "Listing all supported preview sizes");
-            for (Camera.Size size : mPreviewSizeList) {
-                Log.v(LOG_TAG, "  w: " + size.width + ", h: " + size.height);
-            }
-            Log.v(LOG_TAG, "Listing all supported picture sizes");
-            for (Camera.Size size : mPictureSizeList) {
-                Log.v(LOG_TAG, "  w: " + size.width + ", h: " + size.height);
-            }
-        }
+        // debugging of all options
+        // commented since this takes time
+        //Log.d(LOG_TAG, "Listing all supported preview sizes");
+        //for (Camera.Size size : mPreviewSizeList) {
+        //    Log.d(LOG_TAG, "  w: " + size.width + ", h: " + size.height);
+        //}
+        //Log.d(LOG_TAG, "Listing all supported picture sizes");
+        //for (Camera.Size size : mPictureSizeList) {
+        //    Log.d(LOG_TAG, "  w: " + size.width + ", h: " + size.height);
+        //}
 
         // Adjust surface size with the closest aspect-ratio
         float reqRatio = ((float) reqPreviewWidth) / reqPreviewHeight;
@@ -200,16 +226,24 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         return retSize;
     }
 
+    /**
+     * helper to calculate the picture size
+     *
+     * @param previewSize
+     * @return
+     */
     protected Camera.Size determinePictureSize(Camera.Size previewSize) {
         Camera.Size retSize = null;
+
+        // try to return the exact same size
         for (Camera.Size size : mPictureSizeList) {
             if (size.equals(previewSize)) {
                 return size;
             }
         }
-        
-        if (DEBUGGING) { Log.v(LOG_TAG, "Same picture size not found."); }
-        
+
+        Log.d(LOG_TAG, "Same picture size not found.");
+
         // if the preview size is not supported as a picture size
         float reqRatio = ((float) previewSize.width) / previewSize.height;
         float curRatio, deltaRatio;
@@ -222,13 +256,24 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 retSize = size;
             }
         }
-        
+
         return retSize;
     }
-    
+
+    /**
+     * perform updates to size according to layout changes
+     *
+     * @param previewSize
+     * @param portrait
+     * @param availableWidth
+     * @param availableHeight
+     * @return
+     */
     protected boolean adjustSurfaceLayoutSize(Camera.Size previewSize, boolean portrait,
-            int availableWidth, int availableHeight) {
+                                              int availableWidth, int availableHeight) {
         float tmpLayoutHeight, tmpLayoutWidth;
+
+        // again handle portrait mode
         if (portrait) {
             tmpLayoutHeight = previewSize.width;
             tmpLayoutWidth = previewSize.height;
@@ -240,38 +285,31 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         float factH, factW, fact;
         factH = availableHeight / tmpLayoutHeight;
         factW = availableWidth / tmpLayoutWidth;
-        if (mLayoutMode == LayoutMode.FitToParent) {
-            // Select smaller factor, because the surface cannot be set to the size larger than display metrics.
-            if (factH < factW) {
-                fact = factH;
-            } else {
-                fact = factW;
-            }
+
+        // Select smaller factor, because the surface cannot be set to the size larger than display metrics.
+        if (factH < factW) {
+            fact = factH;
         } else {
-            if (factH < factW) {
-                fact = factW;
-            } else {
-                fact = factH;
-            }
+            fact = factW;
         }
 
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)this.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
 
         int layoutHeight = (int) (tmpLayoutHeight * fact);
         int layoutWidth = (int) (tmpLayoutWidth * fact);
-        if (DEBUGGING) {
-            Log.v(LOG_TAG, "Preview Layout Size - w: " + layoutWidth + ", h: " + layoutHeight);
-            Log.v(LOG_TAG, "Scale factor: " + fact);
-        }
+        Log.d(LOG_TAG, "Preview Layout Size - w: " + layoutWidth + ", h: " + layoutHeight);
+        Log.d(LOG_TAG, "Scale factor: " + fact);
 
         boolean layoutChanged;
         if ((layoutWidth != this.getWidth()) || (layoutHeight != this.getHeight())) {
             layoutParams.height = layoutHeight;
             layoutParams.width = layoutWidth;
-            if (mCenterPosX >= 0) {
-                layoutParams.topMargin = mCenterPosY - (layoutHeight / 2);
-                layoutParams.leftMargin = mCenterPosX - (layoutWidth / 2);
-            }
+            // centering is no longer done in this view, instead we rely on the parent view to
+            // perform the centering
+            //if (mCenterPosX >= 0) {
+            //    layoutParams.topMargin = mCenterPosY - (layoutHeight / 2);
+            //    layoutParams.leftMargin = mCenterPosX - (layoutWidth / 2);
+            //}
             this.setLayoutParams(layoutParams); // this will trigger another surfaceChanged invocation.
             layoutChanged = true;
         } else {
@@ -284,12 +322,18 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     /**
      * @param x X coordinate of center position on the screen. Set to negative value to unset.
      * @param y Y coordinate of center position on the screen.
-     */
+     *
     public void setCenterPosition(int x, int y) {
         mCenterPosX = x;
         mCenterPosY = y;
-    }
-    
+    }*/
+
+    /**
+     * helper to update camaera params
+     *
+     * @param cameraParams
+     * @param portrait
+     */
     protected void configureCameraParameters(Camera.Parameters cameraParams, boolean portrait) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) { // for 2.1 and before
             if (portrait) {
@@ -323,19 +367,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         cameraParams.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
         cameraParams.setPictureSize(mPictureSize.width, mPictureSize.height);
-        if (DEBUGGING) {
-            Log.v(LOG_TAG, "Preview Actual Size - w: " + mPreviewSize.width + ", h: " + mPreviewSize.height);
-            Log.v(LOG_TAG, "Picture Actual Size - w: " + mPictureSize.width + ", h: " + mPictureSize.height);
-        }
+        Log.d(LOG_TAG, "Preview Actual Size - w: " + mPreviewSize.width + ", h: " + mPreviewSize.height);
+        Log.d(LOG_TAG, "Picture Actual Size - w: " + mPictureSize.width + ", h: " + mPictureSize.height);
 
         mCamera.setParameters(cameraParams);
     }
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        stop();
-    }
-    
+    /**
+     * helper for stopping camera and cleaning up references
+     */
     public void stop() {
         if (null == mCamera) {
             return;
@@ -345,29 +385,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera = null;
     }
 
+    /**
+     * check if camera is in portrait mode or not
+     *
+     * @return
+     */
     public boolean isPortrait() {
         return (mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
-    }
-    
-    public void setOneShotPreviewCallback(PreviewCallback callback) {
-        if (null == mCamera) {
-            return;
-        }
-        mCamera.setOneShotPreviewCallback(callback);
-    }
-    
-    public void setPreviewCallback(PreviewCallback callback) {
-        if (null == mCamera) {
-            return;
-        }
-        mCamera.setPreviewCallback(callback);
-    }
-    
-    public Camera.Size getPreviewSize() {
-        return mPreviewSize;
-    }
-    
-    public void setOnPreviewReady(PreviewReadyCallback cb) {
-        mPreviewReadyCallback = cb;
     }
 }

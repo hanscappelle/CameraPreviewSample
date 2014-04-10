@@ -15,4 +15,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_sample"
         android:text="@string/camera_preview_test" />
+
+    <Button
+        android:id="@+id/button_intent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_test"
+        android:text="@string/capture_with_intent" />
+
+    <!-- this view we can use to put the captured result image on display -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_below="@id/button_intent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

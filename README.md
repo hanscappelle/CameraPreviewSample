@@ -2,6 +2,48 @@
 
 This project demonstrates how to implement a camera preview step-by-step.
 
+**Update: This fork focuses more on layout, code quality and graphical improvements.
+The support actionbar was added, icon updated and several code and layout changes introduced.**
+
+### Version History
+
+* 1.1.0 first tagged version with the improvements on this fork
+
+### Upcoming features
+
+Features are developed on so called feature branches.
+
+* see if we really need a wrapping view, nested views are no good for performance anyway
+* should we work on zxing core integration on a feature branch?
+* work on extra camera parameters like focus
+* more advanced hardware checks in code
+* implement actual image capture and bitmap handling
+* should we add test cases?
+
+### Known issues
+
+Fixes for these issues are currently in progress on the development branch and will be integrated
+once tested.
+
+* SampleActivity does no longer center the preview
+* alternative camera selection broken on 2.3.6
+* the resizing always happens within the previous dimensions so keeps getting smaller
+
+## Resources
+
+* [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)
+* [Android training about adding Actionbar](https://developer.android.com/training/basics/actionbar/index.html)
+* [Android Camera API Tutorial](http://www.vogella.com/tutorials/AndroidCamera/article.html) by Lars Vogel
+
+## Original Readme
+
+The below overview of tags is part of the original project showing step by step how several aspects
+of managing the camera and its preview are handled.
+
+The biggest concern in my opinion was that this code relies on the wrapping layout ro be a
+RelativeLayout instance and if not simply breaks. In my version this was set to a more generic
+ViewGroup object. Other than that it's a great way of showing how things are done.
+
 ## Git Tags
 
 * minimum -- Minimum code implementing camera preview.
@@ -81,7 +123,3 @@ Refined sample driver activities.
 * CameraPreviewSampleActivity.java -- Driver Activity to demonstrate the usage of CameraPreview.java.
 * CameraPreviewTestActivity.java -- Driver Activity for testing CameraPreview.java.
 * ResizableCameraPreview.java -- Extended class of CameraPreview allowing user to specify the preview size, for the purpose of testing.
-
-## Resources
-
-* [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)

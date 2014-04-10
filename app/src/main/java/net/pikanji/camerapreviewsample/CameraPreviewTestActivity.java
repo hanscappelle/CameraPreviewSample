@@ -1,24 +1,45 @@
 
 package net.pikanji.camerapreviewsample;
 
-import java.util.List;
-
-import android.app.Activity;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 
-public class CameraPreviewTestActivity extends Activity implements AdapterView.OnItemSelectedListener {
+import java.util.List;
+
+/**
+ * A more advanced preview activity showing some configurable options to update the preview on
+ * the go.
+ */
+public class CameraPreviewTestActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
+
+    /**
+     * the preview view
+     */
     private ResizableCameraPreview mPreview;
+
+    /**
+     * an adapter for the spinner options, this is how Android rolls
+     */
     private ArrayAdapter<String> mAdapter;
-    private RelativeLayout mLayout;
+
+    /**
+     * some parent view, whatever that might be, as long as it's a {@link ViewGroup} it's OK. It
+     * still has to be a viewgroup since we want to add our preview to it
+     */
+    private ViewGroup mParentView;
+
+    /**
+     * selected camera ID
+     */
     private int mCameraId = 0;
 
     @Override
@@ -32,7 +53,7 @@ public class CameraPreviewTestActivity extends Activity implements AdapterView.O
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.test);
-        
+
         // Spinner for preview sizes
         Spinner spinnerSize = (Spinner) findViewById(R.id.spinner_size);
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
@@ -50,8 +71,9 @@ public class CameraPreviewTestActivity extends Activity implements AdapterView.O
         adapter.add("0");
         adapter.add("1");
         adapter.add("2");
-        
-        mLayout = (RelativeLayout) findViewById(R.id.layout);
+
+        // any viewgroup can be used from now on
+        mParentView = (ViewGroup) findViewById(R.id.surfaceView);
     }
 
     @Override
@@ -61,21 +83,21 @@ public class CameraPreviewTestActivity extends Activity implements AdapterView.O
         Log.w("CameraPreviewTestActivity", "parent.getId(): " + parent.getId());
         switch (parent.getId()) {
             case R.id.spinner_size:
-            Rect rect = new Rect();
-            mLayout.getDrawingRect(rect);
+                Rect rect = new Rect();
+                mParentView.getDrawingRect(rect);
 
-            if (0 == position) { // "Auto" selected
-                mPreview.surfaceChanged(null, 0, rect.width(), rect.height());
-            } else {
-                mPreview.setPreviewSize(position - 1, rect.width(), rect.height());
-            }
-        break;
+                if (0 == position) { // "Auto" selected
+                    mPreview.surfaceChanged(null, 0, rect.width(), rect.height());
+                } else {
+                    mPreview.setPreviewSize(position - 1, rect.width(), rect.height());
+                }
+                break;
             case R.id.spinner_camera:
-            mPreview.stop();
-            mLayout.removeView(mPreview);
-            mCameraId = position;
-            createCameraPreview();
-            break;
+                mPreview.stop();
+                mParentView.removeView(mPreview);
+                mCameraId = position;
+                createCameraPreview();
+                break;
         }
     }
 
@@ -94,17 +116,17 @@ public class CameraPreviewTestActivity extends Activity implements AdapterView.O
     protected void onPause() {
         super.onPause();
         mPreview.stop();
-        mLayout.removeView(mPreview);
+        mParentView.removeView(mPreview);
         mPreview = null;
     }
-    
+
     private void createCameraPreview() {
         // Set the second argument by your choice.
         // Usually, 0 for back-facing camera, 1 for front-facing camera.
         // If the OS is pre-gingerbreak, this does not have any effect.
-        mPreview = new ResizableCameraPreview(this, mCameraId, CameraPreview.LayoutMode.FitToParent, false);
+        mPreview = new ResizableCameraPreview(this, mCameraId, /*CameraPreview.LayoutMode.FitToParent, */false);
         LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        mLayout.addView(mPreview, 0, previewLayoutParams);
+        mParentView.addView(mPreview, 0, previewLayoutParams);
 
         mAdapter.clear();
         mAdapter.add("Auto");
