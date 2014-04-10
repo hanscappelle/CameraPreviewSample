@@ -93,14 +93,13 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         Log.w("CameraPreviewTestActivity", "position: " + position);
         Log.w("CameraPreviewTestActivity", "parent.getId(): " + parent.getId());
         switch (parent.getId()) {
+            // handle camera size updates
             case R.id.spinner_size:
                 Rect rect = new Rect();
                 // FIXME we always start from the parent to determine the new size but the parent view
                 // is configured to wrap content so gets smaller and smaller as we adapt the size.
                 // get the dimensions
                 mParentView.getDrawingRect(rect);
-                // and then wrap to content again
-                mParentView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
                 if (0 == position) { // "Auto" selected
                     mPreview.surfaceChanged(null, 0, rect.width(), rect.height());
@@ -108,6 +107,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
                     mPreview.setPreviewSize(position - 1, rect.width(), rect.height());
                 }
                 break;
+            // handle camera changes
             case R.id.spinner_camera:
                 mPreview.stop();
                 mParentView.removeView(mPreview);
@@ -142,8 +142,10 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         // If the OS is pre-gingerbreak, this does not have any effect.
         mPreview = new ResizableCameraPreview(this, mCameraId, false);
         LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        // if we add the preview view again the layout stays OK
         mParentView.addView(mPreview, 0, previewLayoutParams);
 
+        // update available sizes according to selected camera
         mAdapter.clear();
         mAdapter.add("Auto");
         List<Camera.Size> sizes = mPreview.getSupportedPreivewSizes();
