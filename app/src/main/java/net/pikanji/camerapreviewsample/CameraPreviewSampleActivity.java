@@ -20,7 +20,7 @@ public class CameraPreviewSampleActivity extends ActionBarActivity {
     /**
      * the wrapping layout view
      */
-    private ViewGroup mParentView;
+    private RelativeLayout mParentView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class CameraPreviewSampleActivity extends ActionBarActivity {
         // If the OS is pre-gingerbreak, this does not have any effect.
         mPreview = new CameraPreview(this, 0);
         LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        previewLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 
         // Un-comment below lines to specify the size in code
         //previewLayoutParams.height = 500;

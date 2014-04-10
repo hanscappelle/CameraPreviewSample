@@ -3,6 +3,7 @@ package net.pikanji.camerapreviewsample;
 
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -68,9 +69,18 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCamera.setAdapter(adapter);
         spinnerCamera.setOnItemSelectedListener(this);
-        adapter.add("0");
-        adapter.add("1");
-        adapter.add("2");
+        // why would we want a fixed list of camaera's here!!?? replaced by a number that matches
+        // the amonut of available camera's
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            for (int i = 0; i < Camera.getNumberOfCameras(); i++)
+                adapter.add(String.valueOf(i));
+        }
+        // otherwise fixed list with at least 3 options (this was original code)
+        else {
+            adapter.add("0");
+            adapter.add("1");
+            adapter.add("2");
+        }
 
         // any viewgroup can be used from now on
         mParentView = (ViewGroup) findViewById(R.id.surfaceView);
@@ -125,7 +135,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         // Usually, 0 for back-facing camera, 1 for front-facing camera.
         // If the OS is pre-gingerbreak, this does not have any effect.
         mPreview = new ResizableCameraPreview(this, mCameraId, /*CameraPreview.LayoutMode.FitToParent, */false);
-        LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         mParentView.addView(mPreview, 0, previewLayoutParams);
 
         mAdapter.clear();
