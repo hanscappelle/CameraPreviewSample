@@ -10,7 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 /**
- * Sample driver class to demonstrate the use of CameraPreview class.
+ * Sample driver class to demonstrate the use of CameraPreview class. This contains UI controls
+ * to start the several preview options.
  */
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -86,7 +87,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
-        // TODO check if this is sufficient
+        // TODO check if this is sufficient for clean up. Older Android versions do have an
+        // issue with memory handling related to bitmaps
         if( mBitmap != null && !mBitmap.isRecycled())
             mBitmap.recycle();
         mBitmap = null;

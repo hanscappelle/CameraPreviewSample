@@ -3,7 +3,6 @@ package net.pikanji.camerapreviewsample;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.hardware.Camera;
-import android.hardware.Camera.PreviewCallback;
 import android.os.Build;
 import android.util.Log;
 import android.view.Display;
@@ -11,7 +10,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -20,6 +18,9 @@ import java.util.List;
 /**
  * A preview view that will match the dimensions to fit the parent view. Use the parent view to
  * control the size of the preview screen. The aspect ratio is managed within this view.
+ * <p/>
+ * The parent view no longer has to be a RelativeLayout, it just needs to be a ViewGroup now.
+ * TODO check if we even need a wrapping view, why not have a surfaceView defined in the layout?
  */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -37,7 +38,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     protected Camera.Size mPreviewSize, mPictureSize;
 
-    private int mSurfaceChangedCallDepth = 0, mCameraId, mCenterPosX = -1, mCenterPosY;
+    private int mSurfaceChangedCallDepth = 0, mCameraId; //, mCenterPosX = -1, mCenterPosY;
 
     private PreviewReadyCallback mPreviewReadyCallback = null;
 
@@ -65,7 +66,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         // just a safety check before setting camera ID
-        // TODO review this part
+        // FIXME debug this part, seems like the camera selection is broken
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             mCameraId = (Camera.getNumberOfCameras() > cameraId) ? cameraId : 0;
         } else {
@@ -292,7 +293,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             fact = factW;
         }
 
-        // FIXME this will fail if parent is not a relativelayout !!!
         ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
 
         int layoutHeight = (int) (tmpLayoutHeight * fact);
@@ -304,7 +304,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         if ((layoutWidth != this.getWidth()) || (layoutHeight != this.getHeight())) {
             layoutParams.height = layoutHeight;
             layoutParams.width = layoutWidth;
-            // FIXME try to center
+            // centering is no longer done in this view, instead we rely on the parent view to
+            // perform the centering
             //if (mCenterPosX >= 0) {
             //    layoutParams.topMargin = mCenterPosY - (layoutHeight / 2);
             //    layoutParams.leftMargin = mCenterPosX - (layoutWidth / 2);
@@ -321,11 +322,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     /**
      * @param x X coordinate of center position on the screen. Set to negative value to unset.
      * @param y Y coordinate of center position on the screen.
-     */
+     *
     public void setCenterPosition(int x, int y) {
         mCenterPosX = x;
         mCenterPosY = y;
-    }
+    }*/
 
     /**
      * helper to update camaera params

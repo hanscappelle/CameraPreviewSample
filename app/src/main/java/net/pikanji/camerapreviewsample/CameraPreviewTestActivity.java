@@ -1,9 +1,6 @@
 
 package net.pikanji.camerapreviewsample;
 
-import java.util.List;
-
-import android.app.Activity;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -13,18 +10,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 
+import java.util.List;
+
+/**
+ * A more advanced preview activity showing some configurable options to update the preview on
+ * the go.
+ */
 public class CameraPreviewTestActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
 
+    /**
+     * the preview view
+     */
     private ResizableCameraPreview mPreview;
+
+    /**
+     * an adapter for the spinner options, this is how Android rolls
+     */
     private ArrayAdapter<String> mAdapter;
 
-    // some parent view, whatever that might be, as long as it's a {@link ViewGroup} it's OK
-    private ViewGroup mLayout;
+    /**
+     * some parent view, whatever that might be, as long as it's a {@link ViewGroup} it's OK. It
+     * still has to be a viewgroup since we want to add our preview to it
+     */
+    private ViewGroup mParentView;
 
+    /**
+     * selected camera ID
+     * FIXME this is broken
+     */
     private int mCameraId = 0;
 
     @Override
@@ -57,8 +73,8 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         adapter.add("1");
         adapter.add("2");
 
-        // FIXME support other layouts also
-        mLayout = /*(RelativeLayout)*/ (ViewGroup)findViewById(R.id.surfaceView);
+        // any viewgroup can be used from now on
+        mParentView = (ViewGroup) findViewById(R.id.surfaceView);
     }
 
     @Override
@@ -69,7 +85,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         switch (parent.getId()) {
             case R.id.spinner_size:
                 Rect rect = new Rect();
-                mLayout.getDrawingRect(rect);
+                mParentView.getDrawingRect(rect);
 
                 if (0 == position) { // "Auto" selected
                     mPreview.surfaceChanged(null, 0, rect.width(), rect.height());
@@ -79,7 +95,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
                 break;
             case R.id.spinner_camera:
                 mPreview.stop();
-                mLayout.removeView(mPreview);
+                mParentView.removeView(mPreview);
                 mCameraId = position;
                 createCameraPreview();
                 break;
@@ -101,7 +117,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
     protected void onPause() {
         super.onPause();
         mPreview.stop();
-        mLayout.removeView(mPreview);
+        mParentView.removeView(mPreview);
         mPreview = null;
     }
 
@@ -111,7 +127,7 @@ public class CameraPreviewTestActivity extends ActionBarActivity implements Adap
         // If the OS is pre-gingerbreak, this does not have any effect.
         mPreview = new ResizableCameraPreview(this, mCameraId, /*CameraPreview.LayoutMode.FitToParent, */false);
         LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        mLayout.addView(mPreview, 0, previewLayoutParams);
+        mParentView.addView(mPreview, 0, previewLayoutParams);
 
         mAdapter.clear();
         mAdapter.add("Auto");
