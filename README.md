@@ -1,13 +1,21 @@
 # CameraPreviewSample
 
-This project demonstrates how to implement a camera preview step-by-step.
+The original project demonstrates how to implement a camera preview in android step-by-step.
 
 **Update: This fork focuses more on layout, code quality and graphical improvements.
-The support actionbar was added, icon updated and several code and layout changes introduced.**
+The support actionbar was added, icon updated and several code and layout changes introduced. 
+Latest changes add barcode recognition using the zxing core library.**
 
 ### Version History
 
-* 1.1.0 first tagged version with the improvements on this fork
+#### v1.2.0 (upcoming)
+
+* zxing added
+* improved documentation on how to handle api levels
+
+#### v1.1.0 
+
+first tagged version with the improvements on this fork
 
 ### Upcoming features
 
