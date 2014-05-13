@@ -6,14 +6,39 @@ The original project demonstrates how to implement a camera preview in android s
 The support actionbar was added, icon updated and several code and layout changes introduced. 
 Latest changes add barcode recognition using the zxing core library.**
 
-### Version History
+## zxing library integration and API support
 
-#### v1.2.0 (upcoming)
+This example app supports back to API level 7. Since this is an Android Studio project the API level is defined in the app/build.gradle file: 
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 19
+    }
+    
+The zxing library needed some work to get support back to this level. Some of the changes we've done are listed below. 
+
+### SDK version
+
+Android build number can be checked in code like this
+
+    if( android.os.Build.SDK
+
+### camera preview failed RuntimeException
+
+    SurfaceView surface=(SurfaceView)findViewById(R.id.surfaceView1);
+    SurfaceHolder holder=surface.getHolder();
+    holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+TODO more code needed
+
+## Version History
+
+### v1.2.0 (upcoming)
 
 * zxing added
 * improved documentation on how to handle api levels
 
-#### v1.1.0 
+### v1.1.0 
 
 first tagged version with the improvements on this fork
 
@@ -22,10 +47,8 @@ first tagged version with the improvements on this fork
 Features are developed on so called feature branches.
 
 * see if we really need a wrapping view, nested views are no good for performance anyway
-* should we work on zxing core integration on a feature branch?
 * work on extra camera parameters like focus
 * implement actual image capture and bitmap handling
-* should we add test cases?
 
 ### Known issues
 
@@ -41,6 +64,8 @@ once tested.
 * more advanced hardware checks in code => already in place
 
 ## Resources
+
+### External links
 
 * [Android Training Article about Camera control](http://developer.android.com/training/camera/index.html)
 * [Android training about adding Actionbar](https://developer.android.com/training/basics/actionbar/index.html)
