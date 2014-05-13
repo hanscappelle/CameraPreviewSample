@@ -21,13 +21,22 @@ The zxing library needed some work to get support back to this level. Some of th
 
 Android build number can be checked in code like this
 
-    if( android.os.Build.SDK
+    if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSIONS.HONEYCOMB )
 
 ### camera preview failed RuntimeException
 
     SurfaceView surface=(SurfaceView)findViewById(R.id.surfaceView1);
     SurfaceHolder holder=surface.getHolder();
     holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    
+### get screen size    
+    
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2)
+			display.getSize(theScreenResolution);
+		else {
+			theScreenResolution.x = display.getWidth();
+			theScreenResolution.y = display.getHeight();
+		}
 
 TODO more code needed
 
