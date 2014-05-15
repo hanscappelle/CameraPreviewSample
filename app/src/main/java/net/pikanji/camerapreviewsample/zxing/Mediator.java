@@ -26,7 +26,7 @@ public class Mediator {
 	/**
 	 * the fragment_capture activity that the user has open
 	 */
-	private CaptureFragment mActivity;
+	private CaptureActivity mActivity;
 
 	/**
 	 * let's keep this a singleton
@@ -66,7 +66,7 @@ public class Mediator {
 	 * 
 	 * @param activity
 	 */
-	public void setCaptureActivity(CaptureFragment activity) {
+	public void setCaptureActivity(CaptureActivity activity) {
 		mActivity = activity;
 	}
 
@@ -74,7 +74,7 @@ public class Mediator {
 	 * 
 	 * @return activity
 	 */
-	public CaptureFragment getCaptureActivity() {
+	public CaptureActivity getCaptureActivity() {
 		return mActivity;
 	}
 

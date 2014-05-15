@@ -8,6 +8,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import net.pikanji.camerapreviewsample.zxing.CaptureActivity;
+import net.pikanji.camerapreviewsample.zxing.ResultHandler;
 
 /**
  * Sample driver class to demonstrate the use of CameraPreview class. This contains UI controls
@@ -39,6 +43,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         findViewById(R.id.button_sample).setOnClickListener(this);
         findViewById(R.id.button_test).setOnClickListener(this);
         findViewById(R.id.button_intent).setOnClickListener(this);
+        findViewById(R.id.button_zxing).setOnClickListener(this);
 
         mImageView = (ImageView) findViewById(R.id.imageView);
     }
@@ -57,6 +62,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.button_intent:
                 dispatchTakePictureIntent();
+                break;
+            case R.id.button_zxing:
+                Intent i = new Intent(this, CaptureActivity.class);
+                i.putExtra(CaptureActivity.KEY_INFO_TEXT, "some info text goes here");// TODO translate
+                // TODO we should use activity for result
+                //i.putExtra(CaptureActivity.KEY_RESULT_HANDLER, new ResultHandler(){
+                //    @Override
+                //    public void handleResult(Bundle data) {
+                //        // TODO show data instead
+                //    }
+                //});
+                startActivity(i);
+
                 break;
         }
     }

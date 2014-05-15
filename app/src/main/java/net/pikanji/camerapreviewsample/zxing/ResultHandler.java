@@ -2,10 +2,12 @@ package net.pikanji.camerapreviewsample.zxing;
 
 import android.os.Bundle;
 
+import java.io.Serializable;
+
 /**
  * This is how we get results back from fragment
  */
-public interface FragmentResultHandler {
+public interface ResultHandler extends Serializable {
 
-    public void handleFragmentResult(Bundle data);
+    public void handleResult(Bundle data);
 }
