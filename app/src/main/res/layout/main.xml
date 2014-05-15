@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/info_resize"
-        android:text="@string/start_zxing" />
+        android:text="@string/camera_preview_test" />
 
     <TextView
         android:id="@+id/info_intent"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/button_intent"
-        android:text="@string/info_preview_sample"/>
+        android:text="@string/info_zxing"/>
 
     <Button
         android:id="@+id/button_zxing"
