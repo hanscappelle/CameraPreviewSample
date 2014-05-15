@@ -6,6 +6,14 @@ The original project demonstrates how to implement a camera preview in android s
 The support actionbar was added, icon updated and several code and layout changes introduced. 
 Latest changes add barcode recognition using the zxing core library.**
 
+## branches
+
+Most work is done on the development branch. From time to time we will create feature branch that
+will some day end up in the development branch anyway.
+
+The original project had several branches to explain step by step how the preview is created. We
+left these intact.
+
 ## zxing library integration and API support
 
 This example app supports back to API level 7. Since this is an Android Studio project the API level is defined in the app/build.gradle file: 
@@ -22,23 +30,27 @@ The zxing library needed some work to get support back to this level. Some of th
 Android build number can be checked in code like this
 
     if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSIONS.HONEYCOMB )
+        // do something here we should only do for devices below honeycomb
 
 ### camera preview failed RuntimeException
 
     SurfaceView surface=(SurfaceView)findViewById(R.id.surfaceView1);
     SurfaceHolder holder=surface.getHolder();
-    holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS); // this does the magic!
     
-### get screen size    
+### get screen size
+
+Retrieving device screen size is typically needed to determine the camera preview size. The method
+calls to do so have changed of different API revisions. This is how to catch that.
     
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2)
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
 			display.getSize(theScreenResolution);
-		else {
+	} else {
 			theScreenResolution.x = display.getWidth();
 			theScreenResolution.y = display.getHeight();
-		}
+	}
 
-TODO more code needed
+###
 
 ## Version History
 
