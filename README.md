@@ -50,11 +50,13 @@ calls to do so have changed of different API revisions. This is how to catch tha
 			theScreenResolution.y = display.getHeight();
 	}
 
-###
-
 ## Version History
 
-### v1.2.0 (upcoming)
+### v1.3.0 (upcoming)
+
+* general code improvements where needed (check tags)
+
+### v1.2.0
 
 * zxing added
 * improved documentation on how to handle api levels
