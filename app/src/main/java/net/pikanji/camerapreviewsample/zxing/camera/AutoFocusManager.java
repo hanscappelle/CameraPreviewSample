@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.RejectedExecutionException;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.Camera;
@@ -35,9 +36,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback {
 		// SharedPreferences sharedPrefs =
 		// PreferenceManager.getDefaultSharedPreferences(context);
 		String currentFocusMode = camera.getParameters().getFocusMode();
-		useAutoFocus =
-		// sharedPrefs.getBoolean(PreferencesActivity.KEY_AUTO_FOCUS, true) &&
-		FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
+		useAutoFocus = FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
 		Log.i(TAG, "Current focus mode '" + currentFocusMode
                 + "'; use auto focus? " + useAutoFocus);
 		start();
@@ -49,12 +48,19 @@ public class AutoFocusManager implements Camera.AutoFocusCallback {
 		autoFocusAgainLater();
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private synchronized void autoFocusAgainLater() {
+	@SuppressLint("NewApi")
+    private synchronized void autoFocusAgainLater() {
 		if (!stopped && outstandingTask == null) {
 			AutoFocusTask newTask = new AutoFocusTask();
 			try {
-				newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                // check on API level
+                if( android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }
+                // for non honeycomb devices we need to use the older version
+                else {
+                    newTask.execute();
+                }
 				outstandingTask = newTask;
 			} catch (RejectedExecutionException ree) {
 				Log.w(TAG, "Could not request auto focus");

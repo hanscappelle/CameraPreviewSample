@@ -56,6 +56,11 @@ calls to do so have changed of different API revisions. This is how to catch tha
 
 * general code improvements where needed (check tags)
 
+### v1.2.1
+
+* fix for samsung S2 devices that provide the continuous focus mode but don't actually focus
+* improvement zxing autofocus on < HONEYCOMB devices
+
 ### v1.2.0
 
 * zxing added
